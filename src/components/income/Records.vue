@@ -1,26 +1,30 @@
 <template>
     <div>
         <h1>Income</h1>
-        <app-record v-for="record in records" :record="record"></app-record> <!-- S1. display component Record here, and loop thro the data -->
+        <app-add-record></app-add-record>
+        <app-record v-for="record in getAllRecords" :record="record"></app-record> <!-- S1. display component Record here, and loop thro the data -->
                                                 <!-- Send "record" from loop to component - :record="record" -->
+        <p>{{getName}}</p>
+
     </div>
 </template>
 <script>
     import Record from './Record.vue';
+    import AddRecord from '../AddRecord.vue';
+
+    import { mapGetters } from 'vuex';
 
     export default {
-        data(){
-            return {
-                records: [
-                    { id: 1, name: 'BMW', price: 110},
-                    { id: 2, name: 'Google', price: 200},
-                    { id: 3, name: 'Apple', price: 250},
-                    { id: 4, name: 'Twitter', price: 8}
-                ]
-            }
+        computed: {
+            ...mapGetters([
+                'getAllRecords',
+                'getName'
+            ])
         },
+
         components: {
-            appRecord: Record
+            appRecord: Record,
+            appAddRecord: AddRecord
         }
     }
 </script>
