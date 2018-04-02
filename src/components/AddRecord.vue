@@ -1,20 +1,47 @@
 <template>
     <div class="col-sm-12">
-        <h2>Add record</h2>
         <div class="panel panel-success">
             <div class="panel-body">
-                <div class="pull-left">
-                    <input type="number" class="form-control" placeholder="Amount" v-model="amount">
+
+                <div v-if="isEdit">
+                    <div>
+                        <input type="text" class="form-control" :placeholder="formEditData.name"  v-model="name">
+                    </div>
+                    <div>
+                        <input type="text" class="form-control" :placeholder="formEditData.categories" v-model="categories">
+                    </div>
+                    <div>
+                        <input type="number" class="form-control" :placeholder="formEditData.amount" v-model="amount">
+                    </div>
+                    <div>
+                        <input type="text" class="form-control" :placeholder="formEditData.account" v-model="account">
+                    </div>
+                    <div class="pull-right">
+                        <button class="btn btn-success" @click="addRecord" :disabled="quantity <=0">Add</button>
+                    </div>
                 </div>
-                <div class="pull-left">
-                    <input type="text" class="form-control" placeholder="Name" v-model="name">
+
+                <div v-else>
+                    <div>
+                        <input id="newItemName" type="text" class="form-control" placeholder="Name" v-model="name">
+                    </div>
+                    <div>
+                        <input id="categories" type="text" class="form-control" placeholder="Categories" v-model="categories">
+                    </div>
+                    <div>
+                        <input id="amount" type="number" class="form-control" placeholder="Amount" v-model="amount">
+                    </div>
+                    <div>
+                        <input id="account" type="text" class="form-control" placeholder="Account" v-model="account">
+                    </div>
+                    <div class="pull-right">
+                        <button class="btn btn-success" @click="addRecord" :disabled="quantity <=0">Add</button>
+                    </div>
                 </div>
-                <div class="pull-right">
-                    <button class="btn btn-success" @click="addRecord" :disabled="quantity <=0">Add</button>
-                </div>
+
+
                 <br /> <br /> <hr />
-                <p>{{amount}}</p>
-                <p>{{name}}</p>
+
             </div>
         </div>
     </div>
@@ -24,6 +51,9 @@
 //    import { mapMutations } from 'vuex';
 
     export default {
+
+        props: ['formEditData', 'isEdit'], // Get props from records when Edit mode
+
 //        methods: {
 //                ...mapMutations([
 //                    'addRecord'
@@ -31,27 +61,59 @@
 //        },
         data(){
             return {
-                name: "",
-                amount: 0,
-//                record: []
+                id: null,
+                date: null,
+                name: null,
+                amount: null,
+                categories: "Uncategorized",
+                account: "Cache"
             }
         },
         methods: {
             addRecord() {
-//                this.record.push({
-//                    name: this.name,
-//                    amount: this.amount
-//                }
-//                );
 
-//                this.$store.state.records.push(
-//                        {name: this.name, amount: this.amount}
-//                );
+                if (this.isEdit) {                              // If Edit Mode
 
-                this.$store.commit('addRecord', {name: this.name, amount: this.amount});
-                console.log(this.$store.state.records);
+                    // 1. Check if input value !empty
+                    if(this.name === null){
+                        this.name = this.formEditData.name;
+                    }
+                    if(this.amount === null){
+                        this.amount = this.formEditData.amount;
+                    }
+                    if(this.date === null){
+                        this.date = this.formEditData.date;
+                    }
+
+
+                    let updatedData = {
+                        id: this.formEditData.id, // leave old id and date
+                        name: this.name,
+                        amount: this.amount,
+                        categories: this.categories,
+                        account: this.account
+                    };
+
+                    this.$store.commit('editRecord', updatedData);
+
+
+
+                } else {                                        // If Create New Mode
+                    this.$store.commit('addRecord', {
+                                id: Date.now(),
+                                name: this.name,
+                                amount: this.amount,
+                                categories: this.categories,
+                                account: this.account
+                            }
+                    );
+                }
+
+
+//                console.log(this.$store.state.items);
             }
         }
+
     }
 </script>
 
