@@ -5,7 +5,7 @@ import { routes } from './router';
 import {store} from './store/store';
 import Vuetify from 'vuetify';
 
-import appCss from './app.css';
+import appCss from './app.scss';
 
 Vue.use(VueRouter);
 Vue.use(Vuetify);
