@@ -5,12 +5,26 @@
             <v-data-table
                     :headers="headers"
                     :items="items"
-                    hide-actions
-                    item-key="name"
+
+
             >
                 <template slot="items" slot-scope="props">
                     <tr @click="props.expanded = !props.expanded">
-                        <td>{{ props.item.date }}</td>
+                        <td>
+                            <v-edit-dialog
+                                :return-value.sync="props.item.name"
+                                lazy
+                            >{{ props.item.date }}
+                            <v-text-field
+                                slot="input"
+                                label="Edit"
+                                v-model="props.item.name"
+                                single-line
+                                counter
+                                :rules="[max25chars]"
+                            ></v-text-field>
+                            </v-edit-dialog>
+                        </td>
                         <td>{{ props.item.avatar }}</td>
                         <td>{{ props.item.name }}</td>
                         <td>{{ props.item.categories }}</td>
@@ -59,6 +73,10 @@
         data () {
 
             return {
+                max25chars: (v) => v.length <= 25 || 'Input too long!',
+                pagination: {},
+
+
                 dialog: false,
 
                 headers: [

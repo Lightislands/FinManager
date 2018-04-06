@@ -5,8 +5,11 @@ import { routes } from './router';
 import {store} from './store/store';
 import Vuetify from 'vuetify';
 
+import appCss from './app.css';
+
 Vue.use(VueRouter);
 Vue.use(Vuetify);
+Vue.use(appCss);
 
 const router = new VueRouter({
   mode: 'history',
