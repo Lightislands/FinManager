@@ -5,16 +5,19 @@
 
                 <div v-if="isEdit">
                     <div>
-                        <input type="text" class="form-control" :placeholder="formEditData.name"  v-model="name">
+                        <input type="text" class="form-control" v-model="formEditData.date">
                     </div>
                     <div>
-                        <input type="text" class="form-control" :placeholder="formEditData.categories" v-model="categories">
+                        <input type="text" class="form-control" v-model="formEditData.name"><!-- :placeholder="formEditData.name" --> <!-- :value="formEditData.name" v-bind="name" -->
                     </div>
                     <div>
-                        <input type="number" class="form-control" :placeholder="formEditData.amount" v-model="amount">
+                        <input type="text" class="form-control" v-model="formEditData.categories">
                     </div>
                     <div>
-                        <input type="text" class="form-control" :placeholder="formEditData.account" v-model="account">
+                        <input type="number" class="form-control" v-model="formEditData.amount">
+                    </div>
+                    <div>
+                        <input type="text" class="form-control" v-model="formEditData.account">
                     </div>
                     <div class="pull-right">
                         <button class="btn btn-success" @click="addRecord" :disabled="quantity <=0">Add</button>
@@ -22,20 +25,20 @@
                 </div>
 
                 <div v-else>
-                    <div>
+                    <div :class="{red: nameNotValid}">
                         <input id="newItemName" type="text" class="form-control" placeholder="Name" v-model="name">
                     </div>
                     <div>
-                        <input id="categories" type="text" class="form-control" placeholder="Categories" v-model="categories">
+                        <input type="text" class="form-control" placeholder="Categories" v-model="categories">
+                    </div>
+                    <div :class="{red: amountNotValid}">
+                        <input id="newItemAmount" type="number" class="form-control" placeholder="Amount" v-model="amount">
                     </div>
                     <div>
-                        <input id="amount" type="number" class="form-control" placeholder="Amount" v-model="amount">
-                    </div>
-                    <div>
-                        <input id="account" type="text" class="form-control" placeholder="Account" v-model="account">
+                        <input type="text" class="form-control" placeholder="Account" v-model="account">
                     </div>
                     <div class="pull-right">
-                        <button class="btn btn-success" @click="addRecord" :disabled="quantity <=0">Add</button>
+                        <button class="btn btn-success" @click.prevent="addRecord" :disabled="quantity <=0">Add</button>
                     </div>
                 </div>
 
@@ -49,6 +52,7 @@
 
 <script>
 //    import { mapMutations } from 'vuex';
+import Helper from '../helpers/helper.js';
 
     export default {
 
@@ -65,24 +69,55 @@
                 date: null,
                 name: null,
                 amount: null,
-                categories: "Uncategorized",
-                account: "Cache"
+                categories: null,
+                account: null,
+
+                nameNotValid: false,
+                amountNotValid: false
             }
         },
         methods: {
+            validate() {
+// Set Default values
+                    if(this.categories === null){
+                        this.categories = "Uncategorized";
+                    }
+                    if(this.account === null){
+                        this.account = "Cache";
+                    }
+
+                    
+                    // Check if !empty
+                    this.nameNotValid = false;
+                    this.amountNotValid = false;
+                    if(!this.name) {
+                        this.nameNotValid = true;
+                    } else if(!this.amount) {
+                        this.amountNotValid = true;
+                    } else {
+                        return true;
+                    }
+            },
+
             addRecord() {
 
-                if (this.isEdit) {                              // If Edit Mode
+                if (this.isEdit) {                              // If "Edit" Mode
 
                     // 1. Check if input value !empty
+                    if(this.date === null){
+                        this.date = this.formEditData.date;
+                    }
                     if(this.name === null){
                         this.name = this.formEditData.name;
+                    }
+                    if(this.categories === null){
+                        this.categories = this.formEditData.categories;
                     }
                     if(this.amount === null){
                         this.amount = this.formEditData.amount;
                     }
-                    if(this.date === null){
-                        this.date = this.formEditData.date;
+                    if(this.account === null){
+                        this.account = this.formEditData.account;
                     }
 
 
@@ -98,19 +133,33 @@
 
 
 
-                } else {                                        // If Create New Mode
-                    this.$store.commit('addRecord', {
-                                id: Date.now(),
-                                name: this.name,
-                                amount: this.amount,
-                                categories: this.categories,
-                                account: this.account
+                } else {                                        // If "Create New" Mode
+
+                    if (this.validate()) {
+                        this.$store.commit('addRecord', {
+                            id: Date.now(),
+                            date: Helper.today(),
+                            avatar: "def",
+                            name: this.name,
+                            amount: this.amount,
+                            categories: this.categories,
+                            account: this.account
                             }
-                    );
+                        );
+                    }
                 }
 
 
 //                console.log(this.$store.state.items);
+            }
+        },
+        watch: {
+            amount: function() {
+// Prevent ">0" value
+                this.amount = this.amount < 0 ? this.amount = 0 : this.amount;
+// Prevent "0" on start
+                this.amount = this.amount.startsWith(0) ? this.amount.substring(1) : this.amount;
+
             }
         }
 
