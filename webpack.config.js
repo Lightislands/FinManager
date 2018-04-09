@@ -1,5 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: './src/main.js',
@@ -10,28 +11,49 @@ module.exports = {
   },
   module: {
     rules: [
-		{test: /\.scss$/, use: ['style-loader','css-loader','sass-loader']},
-      {
-        test: /\.vue$/,
-        loader: 'vue',
-        options: {
-          // vue-loader options go here
-        }
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file',
-        options: {
-          name: '[name].[ext]?[hash]'
-        }
-      }
+
+		  {
+			test: /\.vue$/,
+			loader: 'vue',
+			options: {
+			  // vue-loader options go here
+			}
+		  },
+		  {
+			test: /\.js$/,
+			loader: 'babel',
+			exclude: /node_modules/
+		  },
+		  
+		  {
+			test: /\.scss$/,
+			use: ExtractTextPlugin.extract({
+				fallbackLoader: 'style-loader',
+				loader: ['css-loader','sass-loader'],
+				publicPath: '/dist'
+			})
+		},
+		
+		  
+		  
+		  {
+			test: /\.(png|jpg|gif|svg)$/,
+			loader: 'file',
+			options: {
+			  name: '[name].[ext]?[hash]'
+			}
+		  }
     ]
   },
+  
+  plugins: [
+    new ExtractTextPlugin({
+		filename: 'bundle.css',
+		disable: false,
+		allChunks: true
+	})
+  ],
+  
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue'
