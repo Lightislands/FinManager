@@ -1,8 +1,10 @@
+@import 'normalize';
+
 body {
 	background-color: pink;
 	
 	a {
 		text-decoration: none;
-		color: rgb(255, 0, 0);
+		color: #0ff;
 	}
 }
