@@ -25,13 +25,13 @@
                 </div>
 
                 <div v-else>
-                    <div :class="{red: nameNotValid}">
+                    <div :class="{warning: nameNotValid}">
                         <input id="newItemName" type="text" class="form-control" placeholder="Name" v-model="name">
                     </div>
                     <div>
                         <input type="text" class="form-control" placeholder="Categories" v-model="categories">
                     </div>
-                    <div :class="{red: amountNotValid}">
+                    <div :class="{warning: amountNotValid}">
                         <input id="newItemAmount" type="number" class="form-control" placeholder="Amount" v-model="amount">
                     </div>
                     <div>

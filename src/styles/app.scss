@@ -1,10 +1,56 @@
 @import 'normalize';
 
-body {
-	background-color: pink;
-	
+
+
+
+.records {
+
+	th:last-child {
+		text-align: right!important;
+	}
+	th:nth-child(2) {
+		width: 20px;
+	}
+	th:nth-child(4) {
+		width: 35%;
+	}
+	th:nth-child(6) {
+		width: 30px;
+	}
+	td:last-child {
+		padding-right: 40px!important;
+	}
+
+	tr {
+		border-bottom: 1px solid #ccc;
+	}
+
 	a {
-		text-decoration: none;
-		color: #0ff;
+		padding: 0;
+		font-size: 1rem;
+	}
+
+	.date {
+		width: 20px;
+	}
+	.avatar {
+		// width: 20px;
+		padding: 0!important;
+	}
+	.name {
+
 	}
 }
+
+.warning {
+	border: 1px solid #f00;
+  }
+
+
+.small-dialog {
+	position: initial;
+}
+.menu__content {
+	top: 0;
+	background-color: #fff;
+}  

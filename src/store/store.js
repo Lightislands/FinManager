@@ -10,31 +10,40 @@ export const store = new Vuex.Store({
            {
                value: false,
                id: '1521930771252',
-               date: '20.03.2018',
-               avatar: 'def',
+               date: 'Feb 03',
+               avatar: 'A',
                name: 'John Smidt',
+               description: '',
                categories: 'Cat1',
                amount: 457,
+               currency: '$',
+               planned: false,
                account: 'Card'
            },
            {
                value: false,
                id: '1521930771253',
-               date: '25.02.2018',
-               avatar: 'def',
+               date: 'Feb 04',
+               avatar: 'B',
                name: 'Elis Melamory',
+               description: 'description',
                categories: 'Cat2',
                amount: 5888,
+               currency: '$',
+               planned: true,
                account: 'Cache'
            },
            {
                value: false,
                id: '1521930771254',
-               date: '27.02.2018',
-               avatar: 'def',
+               date: 'Feb 05',
+               avatar: 'C',
                name: 'Ivan Pupkin',
+               description: '',
                categories: 'Uncategorized',
                amount: 234,
+               currency: '$',
+               planned: false,
                account: 'Cart1'
            }
        ]

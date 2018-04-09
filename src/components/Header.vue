@@ -3,6 +3,7 @@
 
         <div class="left-side">
             <router-link to="/"  active-class="active"><a>Home</a></router-link>
+            <router-link to="/expense" active-class="active"><a>Expense</a></router-link>
             <router-link to="/income" active-class="active"><a>Income</a></router-link>
         </div>
 

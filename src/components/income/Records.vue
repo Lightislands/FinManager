@@ -1,20 +1,25 @@
 <template>
-    <div>
+    <div class="records">
         <h1>Income</h1>
 <p>{{getTestName}}</p>
             <v-data-table
                     :headers="headers"
                     :items="items"
-
-
+                    item-key="name"
             >
                 <template slot="items" slot-scope="props">
-                    <tr @click="props.expanded = !props.expanded">
-                        <td>
+                    <tr @click="props.expanded = !props.expanded" v-if="!props.item.planned">
+                        <td class="date">
+                            {{ props.item.date }}
+                        </td>
+                        <td class="avatar">
+                            <v-btn fab dark small color="red">{{ props.item.avatar }}</v-btn>
+                        </td>
+                        <td class="name">
                             <v-edit-dialog
                                 :return-value.sync="props.item.name"
                                 lazy
-                            >{{ props.item.date }}
+                            >{{ props.item.name }}
                             <v-text-field
                                 slot="input"
                                 label="Edit"
@@ -25,10 +30,9 @@
                             ></v-text-field>
                             </v-edit-dialog>
                         </td>
-                        <td>{{ props.item.avatar }}</td>
-                        <td>{{ props.item.name }}</td>
+                        <td>{{ props.item.description }}</td>
                         <td>{{ props.item.categories }}</td>
-                        <td>{{ props.item.amount }}</td>
+                        <td>{{ props.item.currency }} {{ props.item.amount }}</td>
                         <td class="text-xs-right">{{ props.item.account }}</td>
                     </tr>
                 </template>
@@ -86,8 +90,9 @@
                         sortable: true,
                         value: 'date'
                     },
-                    { text: 'Avatar', value: 'avatar' },
+                    { text: '', value: 'avatar' },
                     { text: 'Name', value: 'name' },
+                    { text: 'Description', value: 'description' },
                     { text: 'Categories', value: 'categories' },
                     { text: 'Amount', value: 'amount' },
                     { text: 'Account', value: 'account' }

@@ -4,7 +4,7 @@ export default {
 
     today(){
         var dt = new Date();
-        return (dt.getDate() + "-" + (dt.getMonth() + 1) + "-" + dt.getFullYear())
+        return (dt.getDate() + "." + (dt.getMonth() + 1) + "." + dt.getFullYear())
     },
 
     inputValid (inputId) {
@@ -22,10 +22,10 @@ export default {
         }
     },
 
-    addNotValidToId (id) {
-        var element = document.getElementById(id);
-        element.classList.add("not-valid");
-    }
+    // addNotValidToId (id) {
+    //     var element = document.getElementById(id);
+    //     element.classList.add("not-valid");
+    // }
 
     // timeConverter(t) {     
     //     var a = new Date(t * 1000);
