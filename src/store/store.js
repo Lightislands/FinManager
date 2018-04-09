@@ -18,7 +18,8 @@ export const store = new Vuex.Store({
                amount: 457,
                currency: '$',
                planned: false,
-               account: 'Card'
+               account: 'Card',
+               type: 'income'
            },
            {
                value: false,
@@ -31,7 +32,8 @@ export const store = new Vuex.Store({
                amount: 5888,
                currency: '$',
                planned: true,
-               account: 'Cache'
+               account: 'Cache',
+               type: 'expense'
            },
            {
                value: false,
@@ -44,7 +46,8 @@ export const store = new Vuex.Store({
                amount: 234,
                currency: '$',
                planned: false,
-               account: 'Cart1'
+               account: 'Cart1',
+               type: 'income'
            }
        ]
 

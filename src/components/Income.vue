@@ -1,10 +1,9 @@
 <template>
     <div>
-        <h1>Expense</h1>
-        <app-records type="expense"></app-records>
+        <h1>Income</h1>
+        <app-records type="income"></app-records>
     </div>
 </template>
-
 <script>
 
     import Records from './Records.vue';
