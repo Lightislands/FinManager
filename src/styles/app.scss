@@ -1,6 +1,15 @@
 @import 'normalize';
 
 
+// Search
+.card__title {
+	padding: 0;
+	
+	.input-group {
+		max-width: 20%;
+		border-bottom: 1px solid #ccc;
+	}
+}
 
 
 .records {

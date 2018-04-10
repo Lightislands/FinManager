@@ -2,10 +2,23 @@
     <div class="records">
         <h1>Records - {{ type }}</h1>
 <p>{{getTestName}}</p>
+
+    <v-card-title>
+      <v-spacer></v-spacer>
+      <v-text-field
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+        v-model="search"
+      ></v-text-field>
+    </v-card-title>
+
             <v-data-table
                     :headers="headers"
                     :items="items"
                     item-key="name"
+                    :search="search"
             >
                 <template slot="items" slot-scope="props">
                     <tr @click="props.expanded = !props.expanded" v-if="props.item.type === type"> <!--  v-if="!props.item.planned" -->
@@ -75,11 +88,12 @@
 
     export default {
 
-        props: ['type'],
+        props: ['type'], // Exp or Income
 
         data () {
 
             return {
+                search: '',
                 max25chars: (v) => v.length <= 25 || 'Input too long!',
                 pagination: {},
 
