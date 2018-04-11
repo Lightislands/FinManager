@@ -1,10 +1,51 @@
 @import 'normalize';
 
+$color-1: #f00;
+$gray: #ccc;
+
+$btn: $color-1;
+
+
+// Modal
+
+.dialog {
+	position: relative;
+
+	#on, #off {
+		width: 100%;
+		border: 1px solid #f00;
+	}
+	.active {
+		background-color: #f00;
+	}
+
+	// Switcher
+	.input-group.input-group--selection-controls.switch .input-group--selection-controls__ripple:after {
+		background-color: $color-1;
+	}
+
+	input, .input-group__input {
+		border-bottom: 1px solid $gray;
+		width: 100%;
+		// margin-top: 20px;
+		// position: relative;
+	}
+
+	.menu__content {
+		top: 0!important;
+		left: -60px!important;
+	}
+
+
+	.btn__content {
+		background-color: $btn;
+	}
+}
 
 // Search
 .card__title {
 	padding: 0;
-	
+
 	.input-group {
 		max-width: 20%;
 		border-bottom: 1px solid #ccc;
@@ -45,9 +86,6 @@
 	.avatar {
 		// width: 20px;
 		padding: 0!important;
-	}
-	.name {
-
 	}
 }
 
