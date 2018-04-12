@@ -15,14 +15,14 @@
       ></v-text-field>
     </v-card-title>
 
-            <v-data-table
-                    :headers="headers"
-                    :items="items"
-                    item-key="name"
-                    :search="search"
-            >
+        <v-data-table
+          :headers="headers"
+          :items="items"
+          item-key="name"
+          :search="search"
+        >
                 <template slot="items" slot-scope="props">
-                    <tr @click="props.expanded = !props.expanded" v-if="props.item.type === type"> <!--  v-if="!props.item.planned" -->
+                    <tr @click="props.expanded = !props.expanded" v-if="props.item.expInc == type"> <!--  v-if="!props.item.planned" -->
                         <td class="date">
                             {{ props.item.date }}
                         </td>
@@ -64,22 +64,14 @@
                     </v-card>
                 </template>
 
-            </v-data-table>
+        </v-data-table>
 
-
-        <v-dialog v-model="dialog" max-width="500px">
+        <v-dialog v-model="dialogEdit" max-width="500px">
             <v-card>
-                <v-card-title>
-                    <span class="headline"> Edit record </span>
-                </v-card-title>
-
-                <app-add-record :formEditData="editingItem" :isEdit="dialog"></app-add-record>
-
-
+                <v-card-title><span class="headline"> Edit record </span></v-card-title>
+                <app-add-record :formEditData="editingItem" :dialogEdit="dialogEdit"></app-add-record>
             </v-card>
         </v-dialog>
-
-
     </div>
 </template>
 <script>
@@ -92,15 +84,11 @@
         props: ['type'], // Exp or Income
 
         data () {
-
             return {
+
                 search: '',
                 max25chars: (v) => v.length <= 25 || 'Input too long!',
-                pagination: {},
-
-
-                dialog: false,
-
+                dialogEdit: false,
                 headers: [
                     {
                         text: 'Date',
@@ -116,17 +104,13 @@
                     { text: 'Account', value: 'account' }
                 ],
                 items: this.$store.state.items,
-
                 editingItem: {}
-
             }
         },
 
         methods: {
             editItem (item) {
-//                this.editedIndex = this.items.indexOf(item)
-//                this.editedItem = Object.assign({}, item)
-                this.dialog = true;
+                this.dialogEdit = true;
                 this.editingItem = item;
             },
             deleteItem (item) {

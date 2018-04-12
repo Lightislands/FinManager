@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Expense</h1>
-        <app-records type="expense"></app-records>
+        <app-records :type="type"></app-records> <!-- type true = expense -->
     </div>
 </template>
 
@@ -10,6 +10,11 @@
     import Records from './Records.vue';
 
     export default {
+        data(){
+            return {
+                type: true
+            }
+        },
         components: {
             appRecords: Records
         }

@@ -18,14 +18,14 @@ export const store = new Vuex.Store({
                amount: 457,
                currency: '$',
                planned: false,
-               account: 'Card',
-               type: 'income'
+               account: 'Cache',
+               expInc: false
            },
            {
                value: false,
                id: '1521930771253',
                date: 'Feb 04',
-               avatar: 'B',
+               avatar: 'Pl',
                name: 'Elis Melamory',
                description: 'description',
                categories: 'Cat2',
@@ -33,7 +33,7 @@ export const store = new Vuex.Store({
                currency: '$',
                planned: true,
                account: 'Cache',
-               type: 'expense'
+               expInc: true
            },
            {
                value: false,
@@ -44,10 +44,10 @@ export const store = new Vuex.Store({
                description: '',
                categories: 'Uncategorized',
                amount: 234,
-               currency: '$',
+               currency: '€',
                planned: false,
-               account: 'Cart1',
-               type: 'income'
+               account: 'Cache',
+               expInc: true
            }
        ]
 
@@ -69,10 +69,8 @@ export const store = new Vuex.Store({
         editRecord: (state, updatedData) => {
             for (var i in state.items) {
                 if (state.items[i].id == updatedData.id) {
-                    state.items[i].name = updatedData.name;
-                    state.items[i].categories = updatedData.categories;
-                    state.items[i].amount = updatedData.amount;
-                    state.items[i].account = updatedData.account;
+                    state.items[i] = Object.assign(state.items[i], updatedData);
+                    // state.items[i].name = updatedData.name;
                     break;
                 }
             }

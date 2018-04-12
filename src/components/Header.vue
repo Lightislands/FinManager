@@ -9,18 +9,18 @@
 
         <div class="right-side">
             <div>
-                <v-btn fab large color="green" @click.stop="dialog = true">
+                <v-btn fab large color="green" @click="dialogNew = true">
                     <v-icon dark>add</v-icon>
                 </v-btn>
             </div>
 
-            <v-dialog v-model="dialog" max-width="500px">
+            <v-dialog v-model="dialogNew" max-width="500px">
                 <v-card>
                     <v-card-title>
                         <span class="headline"> Add record NEW </span>
                     </v-card-title>
 
-                    <app-add-record></app-add-record>
+                    <app-add-record :dialogNew="dialogNew"></app-add-record>
 
                 </v-card>
             </v-dialog>
@@ -34,7 +34,7 @@
     export default {
         data () {
             return {
-                dialog: false // Modal
+                dialogNew: false // Modal
             }
         },
         components: {
