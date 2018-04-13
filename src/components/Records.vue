@@ -43,9 +43,9 @@
                                 :rules="[max25chars]"
                             ></v-text-field>
                             </v-edit-dialog>
+                            <div class="description">{{ props.item.description }}</div>
                         </td>
-                        <td>{{ props.item.description }}</td>
-                        <td>{{ props.item.categories }}</td>
+                        <td><span v-for="cat in props.item.categories">{{ cat }}<span v-if="props.item.categories.length > 1">&nbsp; </span></span></td>
                         <td>{{ props.item.currency }} {{ props.item.amount }}</td>
                         <td class="text-xs-right">{{ props.item.account }}</td>
                     </tr>
@@ -66,7 +66,7 @@
 
         </v-data-table>
 
-        <v-dialog v-model="dialogEdit" max-width="500px">
+        <v-dialog v-model="dialogEdit" max-width="500px" @keydown.esc="dialogEdit = false">
             <v-card>
                 <v-card-title><span class="headline"> Edit record </span></v-card-title>
                 <app-add-record :formEditData="editingItem" :dialogEdit="dialogEdit"></app-add-record>
@@ -85,7 +85,6 @@
 
         data () {
             return {
-
                 search: '',
                 max25chars: (v) => v.length <= 25 || 'Input too long!',
                 dialogEdit: false,
@@ -98,7 +97,7 @@
                     },
                     { text: '', value: 'avatar' },
                     { text: 'Name', value: 'name' },
-                    { text: 'Description', value: 'description' },
+                    // { text: 'Description', value: 'description' },
                     { text: 'Categories', value: 'categories' },
                     { text: 'Amount', value: 'amount' },
                     { text: 'Account', value: 'account' }

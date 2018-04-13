@@ -19,21 +19,42 @@
         </v-flex> 
     </v-layout>
 
-    <v-text-field label="Name" v-model="item.name" :rules="nameRules" :counter="10" required></v-text-field>
-
-    <v-select label="account" v-model="item.account" :items="item.accountOptions"></v-select>
+    <v-text-field label="Name"
+     v-model="item.name"
+      :rules="[
+              () => !!item.name || 'This field is required',
+              () => !!item.name && item.name.length <= 30 || 'Name must be less than 30 characters'
+            ]"
+    
+      :counter="30"
+       required
+    ></v-text-field>
 
     <v-layout row wrap>
         <v-flex xs9>
-            <v-text-field label="Amount" v-model="item.amount" required></v-text-field>
+            <v-text-field type="number" label="Amount" v-model.lazy="item.amount"
+            :rules="[
+                    () => !!item.amount > 0 || 'Must be > 0',
+                    amountCheck()
+                    ]"
+            required
+            ></v-text-field>
         </v-flex>
         <v-flex xs2 offset-xs1>
-            <v-select label="currency" v-model="item.currency" :items="item.currencyOptions"></v-select>
+            <v-select v-model="item.currency" :items="item.currencyOptions"></v-select>
         </v-flex> 
     </v-layout>
 
+    <v-select label="account" v-model="item.account" :items="item.accountOptions"></v-select>
+
+
         <!-- Categories --> 
-    <v-select label="Categories" :items="item.people" v-model="item.categories" item-text="name" item-value="name" multiple chips max-height="auto" autocomplete>
+    <v-select label="Categories" :items="item.people" v-model="item.categories" item-text="name" item-value="name" multiple chips max-height="auto" autocomplete
+           :rules="[
+              () => !!item.categories && item.categories.length > 0 || 'This field is required'
+            ]"
+            required
+    >
         <template slot="selection" slot-scope="data">
             <v-chip close @input="data.parent.selectItem(data.item)" :selected="data.selected" class="chip--select-multi" :key="JSON.stringify(data.item)">
                 {{ data.item.name }}
@@ -53,7 +74,12 @@
     </v-select>
         <!-- End categories -->  
 
-    <v-text-field name="description" label="Description" v-model="item.description"></v-text-field>
+    <v-text-field name="description" label="Description" v-model="item.description"
+           :rules="[
+              () => item.description.length <= 60 || 'Name must be less than 60 characters'
+            ]"
+            :counter = 60
+    ></v-text-field>
 
         
     <v-btn
@@ -66,10 +92,6 @@
   </v-form>
    </v-container>
                 </div>
-
-
-                <br /> <br /> <hr />
-
             </div>
         </div>
 
@@ -81,7 +103,7 @@ import Helper from '../helpers/helper.js';
 
     export default {
         // formEditData - data of editing item
-        props: ['formEditData', 'dialogNew', 'dialogEdit'], // Get props from records when Edit mode
+        props: ['formEditData', 'dialogNewModal', 'dialogEditModal', 'dialogEdit'], // Get props from records when Edit mode
 
 //        methods: {
 //                ...mapMutations([
@@ -96,8 +118,8 @@ import Helper from '../helpers/helper.js';
                     id: null,
                     date: null,
                     avatar: null,
-                    name: null,
-                    description: null,
+                    name: "",
+                    description: "",
                     amount: null,
                     account: 'Cache',
                     accountOptions: [
@@ -127,40 +149,63 @@ import Helper from '../helpers/helper.js';
                     ]
                 },
 
-                valid: true
+                valid: false
             }
         },
         methods: {
 
-            // validate() {
-            //     if(this.categories === null){
-            //         this.categories = "Uncategorized";
-            //     }
-            //     if(this.account === null){
-            //         this.account = "Cache";
-            //     }
-            // },
-
-            addRecord() {
-                //this.validate();
-                if (this.dialogEdit){
-                    // Update
-                    this.$store.commit('editRecord', this.item);
-                    // setTimeout(() => {
-                    // this.dialogEdit = false;
-                    // }, 1000)
-
-                }else {
-                    // Add new
-                    this.item.id = Date.now();
-                    this.item.date = Helper.today();
-                    this.item.avatar = "def"
-                    //type: this.expInc ? 'expense' : 'income';
-
-                    this.$store.commit('addRecord', this.item);
-                    //this.dialogNew = false;
+            validate() {
+                if(this.item.categories.length === 0){
+                    this.item.categories = ["Uncategorized"];  
                 }
-                console.log(this.$store.state.items);  
+
+                let checkName = () => {
+                    if(this.item.name.length > 0){
+                        return true;
+                    }else {console.log("Name < 0")}
+                };
+                let checkAmount = () => {
+                    if(this.item.amount.length > 0){
+                        return true;
+                    }else {console.log("Amount < 0")}
+                };
+    
+                if(checkName() && checkAmount()){
+                    this.valid = true;
+                    return true;
+                }   
+            },
+            amountCheck(){
+                    // Prevent "<0" value
+                    this.item.amount = this.item.amount < 0 ? this.item.amount = 0 : this.item.amount;
+                    // Prevent "0" on start
+                    //this.item.amount = this.item.amount.startsWith(0) ? this.item.amount.substring(1) : this.item.amount;
+                return true;
+            },
+            addRecord() {
+                if(this.validate()){
+                    if (this.dialogEdit){
+                        // Update
+                        this.$store.commit('editRecord', this.item);
+                        // setTimeout(() => {
+                        // this.dialogEdit = false;
+                        // }, 1000)
+
+                    }else {
+                        // Add new
+                        this.item.id = Date.now();
+                        this.item.date = Helper.today();
+                        this.item.avatar = "def"
+                        //type: this.expInc ? 'expense' : 'income';
+
+                        this.$store.commit('addRecord', this.item);
+                        //this.dialogNew = false;
+                    }
+                    console.log(this.$store.state.items);
+
+                    // this.close();
+                    this.dialogNewModal.isOpen = false;
+                }
             },
             
             clear () {
@@ -179,13 +224,13 @@ import Helper from '../helpers/helper.js';
             //         // this.item.account === null ? this.item.account = "Cache" : this.item.account;
             //     }
             // },
-            amount: function() {
-// Prevent ">0" value
-                this.item.amount = this.item.amount < 0 ? this.item.amount = 0 : this.item.amount;
-// Prevent "0" on start
-                this.item.amount = this.item.amount.startsWith(0) ? this.item.amount.substring(1) : this.item.amount;
+            // item: function() {
+            //     // Prevent ">0" value
+            //     this.item.amount = this.item.amount < 0 ? this.item.amount = 0 : this.item.amount;
+            //     // Prevent "0" on start
+            //     this.item.amount = this.item.amount.startsWith(0) ? this.item.amount.substring(1) : this.item.amount;
 
-            }
+            // }
         }
 
     }

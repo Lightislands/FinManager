@@ -14,13 +14,13 @@
                 </v-btn>
             </div>
 
-            <v-dialog v-model="dialogNew" max-width="500px">
+            <v-dialog v-model="dialogNew" max-width="500px" @keydown.esc="dialogNew = false">
                 <v-card>
                     <v-card-title>
-                        <span class="headline"> Add record NEW </span>
+                        <span class="headline"> Add record NEW</span>
                     </v-card-title>
 
-                    <app-add-record :dialogNew="dialogNew"></app-add-record>
+                    <app-add-record :dialogNewModal="dialogNewModal"></app-add-record>
 
                 </v-card>
             </v-dialog>
@@ -31,14 +31,26 @@
 
 <script>
     import AddRecord from './AddRecord.vue';
+
     export default {
         data () {
             return {
+                dialogNewModal: {isOpen: true},
                 dialogNew: false // Modal
             }
         },
         components: {
             appAddRecord: AddRecord
+        },
+        computed: {
+            isOpen() {
+                return this.dialogNewModal.isOpen;
+            }
+        },
+        watch: {
+           isOpen() {
+               this.dialogNew = false;
+            }
         }
     }
 </script>
