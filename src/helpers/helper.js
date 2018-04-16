@@ -22,6 +22,14 @@ export default {
         }
     },
 
+    // Convert "yyyy-mm-dd" To "dd-mm-yyyy" from Datapicker
+    convertDateFormat(str) {
+        if (str != null) {
+            return str.substring(8, 10)+'-'+str.substring(5, 7)+'-'+str.substring(0, 4);
+        }
+        return '';
+    }
+
     // addNotValidToId (id) {
     //     var element = document.getElementById(id);
     //     element.classList.add("not-valid");

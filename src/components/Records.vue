@@ -18,7 +18,7 @@
         <v-data-table
           :headers="headers"
           :items="items"
-          item-key="name"
+          item-key="id"
           :search="search"
         >
                 <template slot="items" slot-scope="props">

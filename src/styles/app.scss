@@ -1,6 +1,7 @@
 @import 'normalize';
 
-$color-1: #f00;
+$color-1: #68b768;
+$color-2: #6a85a5;
 $gray: #ccc;
 $gray-text: #b2b2b2;
 
@@ -11,18 +12,45 @@ $btn: $color-1;
 
 .dialog {
 	position: relative;
+	max-width: 400px!important;
 
-	#on, #off {
-		width: 100%;
-		border: 1px solid #f00;
+	.card__title {
+		padding: 15px 0 0 15px;
+		color: $gray-text;
 	}
+
+	.exp-inc {
+		width: 100%;
+		text-align: center;
+		padding: 5px 0;
+		border: 1px solid $color-2;
+		position: relative;
+
+		.material-icons {
+			color: $color-2;
+			//margin: 10px 20px 0 0;
+			position: absolute;
+			left: 10px;
+			top: 6px;
+			font-size: 1.3rem;
+		}
+	}
+
 	.active {
-		background-color: #0f0;
+		background-color: $color-2;
+		color: #fff;
+
+		.material-icons {
+			color: #fff;
+		}
 	}
 
 	// Switcher
 	.input-group.input-group--selection-controls.switch .input-group--selection-controls__ripple:after {
 		background-color: $color-1;
+	}
+	.input-group--selection-controls__toggle {
+		background-color: $color-2!important;
 	}
 
 	.input-group__input {
@@ -30,6 +58,29 @@ $btn: $color-1;
 		width: 100%;
 		// margin-top: 20px;
 		// position: relative;
+	}
+
+	// Datapicker
+	.datapicker {
+		.menu__content {
+			top: 0!important;
+			left: -200px!important;
+
+			.btn__content {
+				color: #000;
+			}
+			.btn {
+				background-color:transparent;
+			}
+			.btn.btn--outline {
+				border-color: $color-1;
+			}
+		}
+		.card__actions {
+			.btn__content {
+				color: $color-2;
+			} 
+		}
 	}
 
 	.menu__content {
@@ -47,11 +98,27 @@ $btn: $color-1;
 		color: $gray-text;
 	}
 	
+	// .btn-group {
+	// 	max-width: 85%;
+	// 	margin: 0 auto;	
+	// }
 	.btn {
 		background-color: $btn;
+		text-transform: capitalize;
 	}
 	.btn.btn--disabled {
 		background-color: #ccc!important;
+	}
+	.btn-submit {
+		width: 60%;
+		.material-icons {
+			margin-right: 10px;
+		}
+	}
+	.btn-clear {
+		background-color: #fff;
+		border: 1px solid $gray;
+		.btn__content {color: #000;}
 	}
 }
 
