@@ -122,7 +122,7 @@
         },
 
         computed: {
-            ...mapGetters([
+            ...mapGetters([ // Can be used if we need just return result, without sending parameters
 //                'getAllRecords',
                 'getTestName',
             ]),
