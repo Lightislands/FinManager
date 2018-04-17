@@ -133,6 +133,7 @@
         watch: {
            isOpen() {
                this.dialogEdit = false;
+               this.editingItem = {}; // fix bug when click "Edit" second time
             },
             dialogEdit(){
                 if(!this.dialogEditModal.isOpen){
