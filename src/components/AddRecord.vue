@@ -4,9 +4,8 @@
             <div class="panel-body">
 
 <v-container fluid>
-
     <v-form v-model="valid" ref="form" lazy-validation>
-
+{{getAccounts}}
     <v-layout row wrap>
         <v-flex xs4>
             <div class="exp-inc" @click="item.expInc = true" :class="{active: item.expInc}">
@@ -17,7 +16,7 @@
                 <i class="material-icons">add_circle</i>Income</div>
         </v-flex>
         <v-flex xs3 offset-xs1>
-            <v-switch color="light-blue darken-1" :label="`${item.planned == true ? 'planned' : 'normal'}`" v-model="item.planned"></v-switch>
+            <v-switch :label="`${item.planned == true ? 'planned' : 'normal'}`" v-model="item.planned"></v-switch>
         </v-flex> 
     </v-layout>
 
@@ -75,15 +74,15 @@
             ></v-text-field>
         </v-flex>
         <v-flex xs2 offset-xs1>
-            <v-select v-model="item.currency" :items="item.currencyOptions"></v-select>
+            <v-select v-model="item.currency" :items="currencyOptions"></v-select>
         </v-flex> 
     </v-layout>
 
-    <v-select label="account" v-model="item.account" :items="item.accountOptions"></v-select>
+    <v-select label="account" v-model="item.account" :items="accountOptions"></v-select>
 
 
         <!-- Categories --> 
-    <v-select label="Categories" :items="item.people" v-model="item.categories" item-text="name" item-value="name" multiple chips max-height="auto" autocomplete
+    <v-select label="Categories" :items="categoriesOptions" v-model="item.categories" item-text="name" item-value="name" multiple chips max-height="auto" autocomplete
            :rules="[
               () => !!item.categories && item.categories.length > 0 || 'This field is required'
             ]"
@@ -153,6 +152,10 @@ import Helper from '../helpers/helper.js';
                 date: null, // To detect by watch
                 datestring:'', // Converted date
 
+                accountOptions: this.$store.state.accountOptions,
+                currencyOptions: this.$store.state.currencyOptions,
+                categoriesOptions: this.$store.state.categoriesOptions,
+
                 item: {
                     expInc: true,
                     planned: false,
@@ -163,31 +166,8 @@ import Helper from '../helpers/helper.js';
                     description: "",
                     amount: null,
                     account: 'Cache',
-                    accountOptions: [
-                        'Cache',
-                        'Credit cart',
-                        'Cart'
-                    ],
                     currency: '€',
-                    currencyOptions: [
-                        '$',
-                        '€'
-                    ],
-                    // Categories
-                    categories: ['Uncategorised'],
-                    people: [
-                        { header: 'Group 1' },
-                        { name: 'Uncategorised' },
-                        { name: 'Ali Connors' },
-                        { name: 'Trevor Hansen' },
-                        { name: 'Tucker Smith' },
-                        { divider: true },
-                        { header: 'Group 2' },
-                        { name: 'Britta Holt' },
-                        { name: 'Jane Smith ' },
-                        { name: 'John Smith' },
-                        { name: 'Sandra Williams' }
-                    ]
+                    categories: ['Uncategorised']
                 },
 
                 defaultItem: {
@@ -200,36 +180,18 @@ import Helper from '../helpers/helper.js';
                     description: "",
                     amount: null,
                     account: 'Cache',
-                    accountOptions: [
-                        'Cache',
-                        'Credit cart',
-                        'Cart'
-                    ],
                     currency: '€',
-                    currencyOptions: [
-                        '$',
-                        '€'
-                    ],
-                    // Categories
-                    categories: ['Uncategorised'],
-                    people: [
-                        { header: 'Group 1' },
-                        { name: 'Uncategorised' },
-                        { name: 'Ali Connors' },
-                        { name: 'Trevor Hansen' },
-                        { name: 'Tucker Smith' },
-                        { divider: true },
-                        { header: 'Group 2' },
-                        { name: 'Britta Holt' },
-                        { name: 'Jane Smith ' },
-                        { name: 'John Smith' },
-                        { name: 'Sandra Williams' }
-                    ]
+                    categories: ['Uncategorised']
                 },
 
                 isValid: false
             }
         },
+        // computed: {
+        //     // ...mapGetters([ 
+        //     //     'getAccounts'
+        //     // ])
+        // },
         methods: {
 
             validate() {
@@ -376,5 +338,28 @@ import Helper from '../helpers/helper.js';
         }
 
     }
+
+                // class Item {
+            //     constructor(expInc = true, planned = false, id = null, date = Helper.today(), avatar = null,
+            //         name = "", description = "", amount = null, account = 'Cache',
+            //         accountOptions = this.$store.state.accountOptions, currency = '€', currencyOptions = this.$store.state.currencyOptions,
+            //         categories = ['Uncategorised'], categoriesOptions = this.$store.state.categoriesOptions)
+            //        {
+            //         this.expInc = expInc;
+            //         this.planned = planned,
+            //         this.id = id,
+            //         this.date = date,
+            //         this.avatar = avatar,
+            //         this.name = name,
+            //         this.description = description,
+            //         this.amount = amount,
+            //         this.account = account,
+            //         this.accountOptions = accountOptions,
+            //         this.currency = currency,
+            //         this.currencyOptions = currencyOptions,
+            //         this.categories = categories,
+            //         this.categoriesOptions = categoriesOptions
+            //     }
+            // }  
 </script>
 

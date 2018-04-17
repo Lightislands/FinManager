@@ -24,7 +24,7 @@
                 <template slot="items" slot-scope="props">
                     <tr @click="props.expanded = !props.expanded" v-if="props.item.expInc == type"> <!--  v-if="!props.item.planned" -->
                         <td class="date">
-                            {{ props.item.date }}
+                            {{ props.item.date | dateFormat }}
                         </td>
                         <td class="avatar">
                             <v-btn fab dark small color="red">{{ props.item.avatar }}</v-btn>
@@ -111,7 +111,15 @@
             }
         },
 
+        created () {
+            this.initialize()
+        },
+
         methods: {
+            initialize (){
+                alert("AAAA")
+                this.$store.commit('init');
+            },
             editItem (item) {
                 this.dialogEdit = true;
                 this.editingItem = item;
@@ -139,6 +147,16 @@
                 if(!this.dialogEditModal.isOpen){
                     this.dialogEditModal.isOpen = true;
                 }
+            }
+        },
+        filters: {
+            dateFormat: function (value) {
+                if (!value) return '';
+                // let year = value.substring(6, 10);
+                let mon = value.substring(3, 5);
+                let day = value.substring(0, 2);
+                let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                return months[+mon - 1] + " \r\n " + day;
             }
         },
         components: {

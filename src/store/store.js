@@ -10,7 +10,7 @@ export const store = new Vuex.Store({
            {
                value: false,
                id: '1521930771252',
-               date: 'Feb 03',
+               date: '10.03.2018',
                avatar: 'A',
                name: 'John Smidt',
                description: '',
@@ -24,7 +24,7 @@ export const store = new Vuex.Store({
            {
                value: false,
                id: '1521930771253',
-               date: 'Feb 04',
+               date: '06.04.2018',
                avatar: 'Pl',
                name: 'Elis Melamory',
                description: 'description',
@@ -38,7 +38,7 @@ export const store = new Vuex.Store({
            {
                value: false,
                id: '1521930771254',
-               date: 'Feb 05',
+               date: '02.05.2018',
                avatar: 'C',
                name: 'Ivan Pupkin',
                description: '',
@@ -49,7 +49,30 @@ export const store = new Vuex.Store({
                account: 'Cache',
                expInc: true
            }
-       ]
+       ],
+
+        accountOptions: [
+            'Cache',
+            'Credit cart',
+            'Cart'
+        ],
+
+        currencyOptions: [
+            '$',
+            '€'
+        ],
+
+        categoriesOptions: [
+            { name: 'Uncategorised' },
+            { name: 'Ali Connors' },
+            { name: 'Trevor Hansen' },
+            { name: 'Tucker Smith' },
+            { header: 'Group 2' },
+            { name: 'Britta Holt' },
+            { name: 'Jane Smith ' },
+            { name: 'John Smith' },
+            { name: 'Sandra Williams' }
+        ]
 
 
    },
@@ -57,20 +80,33 @@ export const store = new Vuex.Store({
         getAllRecords: state => {
             return state.items;
         },
+        getAccounts: state => {
+            return state.accountOptions;
+        },
         getTestName: state => {
             return "Some Name to test spreed operator in Records.vue";
         }
     },
     mutations: {
+        init: () => {
+            let data = localStorage.getItem('items')
+            let parsed = JSON.parse(data);
+            //state.items = parsed
+            console.log("++++++++++++++")
+            console.log(parsed)
+            console.log("++++++++++++++")
+        },
+
         saveRecord: (state, n) => {
             state.items.push(n);
+
+            localStorage.setItem('items', JSON.stringify(state.items));
         },
 
         editRecord: (state, updatedData) => {
             for (var i in state.items) {
                 if (state.items[i].id == updatedData.id) {
                     state.items[i] = Object.assign(state.items[i], updatedData);
-                    // state.items[i].name = updatedData.name;
                     break;
                 }
             }

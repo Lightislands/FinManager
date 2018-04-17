@@ -46,18 +46,20 @@ $btn: $color-1;
 	}
 
 	// Switcher
-	.input-group.input-group--selection-controls.switch .input-group--selection-controls__ripple:after {
-		background-color: $color-1;
+	.input-group--selection-controls.switch {
+		.input-group--selection-controls__ripple:after {
+			background-color: $color-1;
+		}
+		label {
+			font-size: 1rem;
+		}
 	}
 	.input-group--selection-controls__toggle {
 		background-color: $color-2!important;
 	}
-
 	.input-group__input {
 		border-bottom: 1px solid $gray;
 		width: 100%;
-		// margin-top: 20px;
-		// position: relative;
 	}
 
 	// Datapicker
@@ -80,6 +82,9 @@ $btn: $color-1;
 			.btn__content {
 				color: $color-2;
 			} 
+		}
+		.input-group__prepend-icon {
+			color: $color-2;
 		}
 	}
 
@@ -135,7 +140,9 @@ $btn: $color-1;
 
 // Items list in Exp/Inc
 .records {
-
+	th {
+		color: $gray-text;
+	}
 	th:last-child {
 		text-align: right!important;
 	}
@@ -146,10 +153,10 @@ $btn: $color-1;
 		width: 35%;
 	}
 	th:nth-child(6) {
-		width: 30px;
+		padding: 0!important;
 	}
 	td:last-child {
-		padding-right: 40px!important;
+		padding-right: 15px!important;
 	}
 
 	tr {
