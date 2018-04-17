@@ -264,11 +264,11 @@ import Helper from '../helpers/helper.js';
                 this.item.amount = this.item.amount < 0 ? this.item.amount = 0 : this.item.amount;
                     // Prevent "0" on start
 
-                if(this.item.amount !== null){
+                if(this.item.amount != null){
                     let stringAmount = this.item.amount.toString(); // ".startsWith" accept string only
                     this.item.amount = stringAmount.startsWith(0) ? this.item.amount.substring(1) : this.item.amount;
                     // Prevent "." on start
-                    this.item.amount = this.item.amount.startsWith(".") ? this.item.amount.substring(1) : this.item.amount
+                    this.item.amount = stringAmount.startsWith(".") ? this.item.amount.substring(1) : this.item.amount
                 }
                     // Activate Submit btn
                 this.isValid = this.item.amount > 0 ? this.isValid = true : this.isValid = false;
