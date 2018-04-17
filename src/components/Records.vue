@@ -69,7 +69,8 @@
         <v-dialog v-model="dialogEdit" max-width="500px" @keydown.esc="dialogEdit = false">
             <v-card>
                 <v-card-title><span class="headline"> Edit record </span></v-card-title>
-                <app-add-record :formEditData="editingItem" :dialogEdit="dialogEdit"></app-add-record>
+                <!--:formEditData - item data, :dialogEdit - modal state -->
+                <app-add-record :formEditData="editingItem" :editModal="dialogEditModal"></app-add-record>
             </v-card>
         </v-dialog>
     </div>
@@ -85,9 +86,12 @@
 
         data () {
             return {
+                dialogEditModal: {isOpen: true},
+                dialogEdit: false,
+
                 search: '',
                 max25chars: (v) => v.length <= 25 || 'Input too long!',
-                dialogEdit: false,
+
                 headers: [
                     {
                         text: 'Date',
@@ -120,10 +124,22 @@
         computed: {
             ...mapGetters([
 //                'getAllRecords',
-                'getTestName'
-            ])
+                'getTestName',
+            ]),
+            isOpen() {
+                return this.dialogEditModal.isOpen;
+            }
         },
-
+        watch: {
+           isOpen() {
+               this.dialogEdit = false;
+            },
+            dialogEdit(){
+                if(!this.dialogEditModal.isOpen){
+                    this.dialogEditModal.isOpen = true;
+                }
+            }
+        },
         components: {
             appAddRecord: AddRecord
         }

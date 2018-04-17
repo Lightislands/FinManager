@@ -62,7 +62,7 @@ export const store = new Vuex.Store({
         }
     },
     mutations: {
-        addRecord: (state, n) => {
+        saveRecord: (state, n) => {
             state.items.push(n);
         },
 

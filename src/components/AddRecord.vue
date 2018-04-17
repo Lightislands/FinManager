@@ -117,7 +117,7 @@
     <div class="btn-group">    
         <v-btn
             class="btn-submit"
-            @click.prevent="addRecord"
+            @click.prevent="saveRecord"
             :disabled="!isValid"
         >
         <i class="material-icons">check</i>
@@ -139,7 +139,7 @@ import Helper from '../helpers/helper.js';
 
     export default {
         // formEditData - data of editing item
-        props: ['formEditData', 'dialogNewModal', 'dialogEditModal', 'dialogEdit'], // Get props from records when Edit mode
+        props: ['formEditData', 'newModal', 'editModal'], // Get props from records when Edit mode
 
 //        methods: {
 //                ...mapMutations([
@@ -263,9 +263,9 @@ import Helper from '../helpers/helper.js';
                     // Prevent "<0" value
                 this.item.amount = this.item.amount < 0 ? this.item.amount = 0 : this.item.amount;
                     // Prevent "0" on start
-                this.item.amount != null ? (this.item.amount = this.item.amount.startsWith(0) ? this.item.amount.substring(1) : this.item.amount) : "";
+                //this.item.amount != null ? (this.item.amount = this.item.amount.startsWith(0) ? this.item.amount.substring(1) : this.item.amount) : "";
                     // Prevent "." on start
-                this.item.amount != null ? (this.item.amount = this.item.amount.startsWith(".") ? this.item.amount.substring(1) : this.item.amount) : "";
+                //this.item.amount != null ? (this.item.amount = this.item.amount.startsWith(".") ? this.item.amount.substring(1) : this.item.amount) : "";
                     // Activate Submit btn
                 this.isValid = this.item.amount > 0 ? this.isValid = true : this.isValid = false;
                 
@@ -281,21 +281,27 @@ import Helper from '../helpers/helper.js';
                 this.item = Object.assign({}, this.defaultItem);
 
                 // this.close();
-                if(this.dialogNewModal){
-                    this.dialogNewModal.isOpen = false;
+                if(this.newModal){
+                    this.newModal.isOpen = false;
                 }else {
                     console.log("is Edit mode");
                 }
+
+                if(this.editModal){
+                    this.editModal.isOpen = false;
+                }else {
+                    console.log("is addNew mode");
+                }
             },
 
-            addRecord() {
+            saveRecord() {
                 if(this.validate()){
-                    if (this.dialogEdit){
+                    if (this.editModal){
                         // Update
                         this.$store.commit('editRecord', this.item);
 
                         // setTimeout(() => {
-                        // this.dialogEdit = false;
+                        // this.editModal = false;
                         // }, 1000)
 
                     }else {
@@ -304,7 +310,7 @@ import Helper from '../helpers/helper.js';
                         //this.item.date = Helper.today();
                         this.item.avatar = "def"
 
-                        this.$store.commit('addRecord', this.item);
+                        this.$store.commit('saveRecord', this.item);
                         //this.dialogNew = false;
                     }
                     console.log(this.$store.state.items);
@@ -320,17 +326,23 @@ import Helper from '../helpers/helper.js';
             }
         },
         watch: {
-            // if props coming - fill up modal by item data
+
             formEditData: function(){
+                            // if props coming - fill up modal by item data
                 this.item = Object.assign(this.item, this.formEditData);
-                this.amount = this.item.amount; 
+                //this.amount = this.item.amount; 
                         console.log("+++++++++++")
                         console.log(this.item.amount)
             },
 
+            // Conver date format from datepicker
             date: function(val, oldVal) {
                 this.item.date = Helper.convertDateFormat(val);
             },
+
+            // datestring: function(val){
+            //     console.log("-----"+ val)
+            // }
 
             // amount: function(val){
             //     if(val > 0){
@@ -342,6 +354,8 @@ import Helper from '../helpers/helper.js';
             // }
 
             // dialogNewModal: function(){
+            //     console.log("dialogNewModal")
+            //     console.log(dialogNewModal)
             //     // if(this.dialogNew){
             //     //     console.log("Click Add New");
             //     //     // this.item.account === null ? this.item.account = "Cache" : this.item.account;

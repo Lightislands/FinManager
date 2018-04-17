@@ -1,0 +1,9 @@
+- if date changed - change id (for sorting by date(by id))
+- Add filter for date to display in MM.dd format
+
+- Add localstorage
+- Add Authorisation
+- Add Filters (Last 30days, Account, Category)
+- Add planned display
+- Add setting
+- Add reports 

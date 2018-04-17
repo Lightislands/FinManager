@@ -21,7 +21,7 @@
                         <span class="headline">Add new</span>
                     </v-card-title>
 
-                    <app-add-record :dialogNewModal="dialogNewModal"></app-add-record>
+                    <app-add-record :newModal="dialogNewModal"></app-add-record>
 
                 </v-card>
             </v-dialog>
@@ -47,7 +47,6 @@
             isOpen() {
                 return this.dialogNewModal.isOpen;
             }
-            
         },
         watch: {
            isOpen() {
