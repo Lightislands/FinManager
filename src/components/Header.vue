@@ -10,9 +10,8 @@
 
         <div class="right-side">
 
-            <div>
-                <v-btn slot="activator"  @click="dialogLogIn = true">Log In</v-btn>
-            </div>
+
+            <a @click="dialogLogIn = true">Log In</a>
             <v-dialog v-model="dialogLogIn" max-width="500px" @keydown.esc="dialogLogIn = false">
                 <v-card>
                     <v-card-title><span class="headline">Log In</span></v-card-title>
@@ -21,9 +20,8 @@
             </v-dialog>
 
 
-            <div>
-                <v-btn slot="activator"  @click="dialogSignUp = true">Sign Up</v-btn>
-            </div>
+
+            <a  @click="dialogSignUp = true">Sign Up</a>
             <v-dialog v-model="dialogSignUp" max-width="500px" @keydown.esc="dialogSignUp = false">
                 <v-card>
                     <v-card-title><span class="headline">Sign Up</span></v-card-title>
