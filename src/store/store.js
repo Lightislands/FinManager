@@ -1,10 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import axios from '../axios-auth'; // for sign up/log in
+import globalAxios from 'axios'; // for storing and fething user data
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
    state: {
+       idToken: null,
+       userId: null,
+       user: null,
  
        items: [
            {
@@ -67,7 +72,6 @@ export const store = new Vuex.Store({
             { name: 'Ali Connors' },
             { name: 'Trevor Hansen' },
             { name: 'Tucker Smith' },
-            { header: 'Group 2' },
             { name: 'Britta Holt' },
             { name: 'Jane Smith ' },
             { name: 'John Smith' },
@@ -76,6 +80,127 @@ export const store = new Vuex.Store({
 
 
    },
+   mutations: {
+
+    // init: () => {
+    //     let data = localStorage.getItem('items')
+    //     let parsed = JSON.parse(data);
+    //     state.items.push(parsed)
+    //     console.log("+++++++ Init +++++++")
+    // },
+
+    saveRecord: (state, n) => {
+        state.items.push(n);
+        // localStorage.setItem('items', JSON.stringify(state.items));
+    },
+
+    editRecord: (state, updatedData) => {
+        for (var i in state.items) {
+            if (state.items[i].id == updatedData.id) {
+                state.items[i] = Object.assign(state.items[i], updatedData);
+                break;
+            }
+        }
+    },
+
+    deleteRecord: (state, record) => {
+        for(var i = 0; i < state.items.length; i++) {
+            if(state.items[i].id == record.id) {
+                state.items.splice(i, 1);
+                break;
+            }
+        }
+
+        // for (const value of state.items) {
+        //     console.log(value);
+        //         if(value.id == record.id) {
+        //             state.items.splice(value, 1);
+        //             break;
+        //         }
+        // }
+
+    },
+
+    authUser (state, userData) {
+        state.idToken = userData.token;
+        state.userId = userData.userId;
+    },
+    storeUser (state, user){
+        state.user = user;
+    },
+
+    
+},
+
+    actions: {
+        signup ({commit, dispatch}, authData) { // Run commit and dispatch in .then
+            console.log("signupNewUser ---- ")
+            axios.post('/signupNewUser?key=AIzaSyAjkRSwDz9ssjhJQfG7eKur7Wp1DTS7_xI', {
+                email: authData.email, // Get "authData" from signup.vue
+                password: authData.password,
+                returnSecureToken: true
+              })
+              .then(res => {
+                console.log("signup ---- ")
+                console.log(res)
+                commit('authUser', { // Save data to store
+                  token: res.data.idToken,
+                  userId: res.data.localId
+                })
+                dispatch('storeUser', authData) // Run "storeUser" action
+              })
+              .catch(error => console.log(error))
+        },
+        login ({commit}, authData) {
+            axios.post('/verifyPassword?key=AIzaSyAjkRSwDz9ssjhJQfG7eKur7Wp1DTS7_xI', {
+                email: authData.email,
+                password: authData.password,
+                returnSecureToken: true
+              })
+                .then(res => {
+                        console.log(res);
+                        commit('authUser', {
+                            token: res.data.idToken,
+                            userId: res.data.localId
+                        })
+                    })
+                    .catch(error => console.log(error))      
+        },
+
+        storeUser ({commit, state}, userData){
+            if(!state.idToken){ // If we don't have a token - don't send request
+                console.log("No token")
+                return
+            }
+            globalAxios.post('/users.json' + '?auth=' + state.idToken, userData) // After Authentication - Store user in DB (not authentication)
+                .then(res => console.log("res"+res))
+                .catch(error => console.log(error))
+        },
+
+        fetchUser ({commit, state}){ // Do it when "Records.vue" component created
+            if(!state.idToken){
+                return
+            }
+            globalAxios.get('/users.json' + '?auth=' + state.idToken)
+                .then(res => {
+                    // console.log(res);
+                    const data = res.data;
+                    const users = [];
+                    for (let key in data){
+                        const user = data[key];
+                        user.id = key;
+                        users.push(user);
+                    }
+                    console.log("========= users =========");
+                    console.log(users);
+                    this.email = users[0].email;
+                    commit('storeUser', users[0]) // mutation "storeUser"
+                })
+                .catch(error => console.log(error))
+        }
+
+    },
+
     getters: {
         getAllRecords: state => {
             return state.items;
@@ -85,50 +210,9 @@ export const store = new Vuex.Store({
         },
         getTestName: state => {
             return "Some Name to test spreed operator in Records.vue";
+        },
+        user (state) {
+            return state.user
         }
     },
-    mutations: {
-        init: () => {
-            let data = localStorage.getItem('items')
-            let parsed = JSON.parse(data);
-            //state.items = parsed
-            console.log("++++++++++++++")
-            console.log(parsed)
-            console.log("++++++++++++++")
-        },
-
-        saveRecord: (state, n) => {
-            state.items.push(n);
-
-            localStorage.setItem('items', JSON.stringify(state.items));
-        },
-
-        editRecord: (state, updatedData) => {
-            for (var i in state.items) {
-                if (state.items[i].id == updatedData.id) {
-                    state.items[i] = Object.assign(state.items[i], updatedData);
-                    break;
-                }
-            }
-        },
-
-        deleteRecord: (state, record) => {
-            for(var i = 0; i < state.items.length; i++) {
-                if(state.items[i].id == record.id) {
-                    state.items.splice(i, 1);
-                    break;
-                }
-            }
-
-            // for (const value of state.items) {
-            //     console.log(value);
-            //         if(value.id == record.id) {
-            //             state.items.splice(value, 1);
-            //             break;
-            //         }
-            // }
-
-        }
-        
-    }
 });

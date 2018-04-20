@@ -9,20 +9,40 @@
         </div>
 
         <div class="right-side">
+
+            <div>
+                <v-btn slot="activator"  @click="dialogLogIn = true">Log In</v-btn>
+            </div>
+            <v-dialog v-model="dialogLogIn" max-width="500px" @keydown.esc="dialogLogIn = false">
+                <v-card>
+                    <v-card-title><span class="headline">Log In</span></v-card-title>
+                    <app-log-in></app-log-in>
+                </v-card>
+            </v-dialog>
+
+
+            <div>
+                <v-btn slot="activator"  @click="dialogSignUp = true">Sign Up</v-btn>
+            </div>
+            <v-dialog v-model="dialogSignUp" max-width="500px" @keydown.esc="dialogSignUp = false">
+                <v-card>
+                    <v-card-title><span class="headline">Sign Up</span></v-card-title>
+                    <app-sign-up></app-sign-up>
+                </v-card>
+            </v-dialog>
+
+
             <div>
                 <v-btn slot="activator" fab large color="green" @click="dialogNew = true">
                     <v-icon dark>add</v-icon>
                 </v-btn>
             </div>
-
             <v-dialog v-model="dialogNew" max-width="500px" @keydown.esc="dialogNew = false">
                 <v-card>
                     <v-card-title>
                         <span class="headline">Add new</span>
                     </v-card-title>
-
                     <app-add-record :newModal="dialogNewModal"></app-add-record>
-
                 </v-card>
             </v-dialog>
         </div>
@@ -32,16 +52,22 @@
 
 <script>
     import AddRecord from './AddRecord.vue';
+    import SignUp from './auth/signup.vue';
+    import LogIn from './auth/signin.vue';
 
     export default {
         data () {
             return {
                 dialogNewModal: {isOpen: true},
-                dialogNew: false // Modal
+                dialogNew: false, // Modal
+                dialogSignUp: false,
+                dialogLogIn: false
             }
         },
         components: {
-            appAddRecord: AddRecord
+            appAddRecord: AddRecord,
+            appSignUp: SignUp,
+            appLogIn: LogIn
         },
         computed: {
             isOpen() {
@@ -60,31 +86,3 @@
         }
     }
 </script>
-
-<style>
-    .head-wrap {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-    .left-side {
-        display: flex;
-    }
-        a {
-            padding: 10px 20px 0 0;
-            font-size: 1.5rem;
-        }
-
-    .right-side {
-        float: right;
-        margin-top: -60px;
-    }
-
-    .dialog .card {
-        background-color: #fff;
-        overflow: hidden;
-    }
-
-    .btn__content {
-        color: #fff;
-    }
-</style>

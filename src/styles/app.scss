@@ -8,11 +8,48 @@ $gray-text: #b2b2b2;
 $btn: $color-1;
 
 
+
+// Head
+.head-wrap {
+	flex-direction: row;
+	justify-content: space-between;
+
+	.left-side {
+		display: flex;
+	}
+		a {
+			padding: 10px 20px 0 0;
+			font-size: 1.5rem;
+		}
+	
+	.right-side {
+		float: right;
+		margin-top: -60px;
+	}
+	
+
+	
+	.btn--floating .btn__content {
+		color: #fff;
+	}
+	
+}
+
+.dialog .card {
+	background-color: #fff;
+	overflow: hidden;
+}
+
+
 // Modal
 
 .dialog {
 	position: relative;
 	max-width: 400px!important;
+
+	.btn__content {
+		color: #fff;
+	}
 
 	.card__title {
 		padding: 15px 0 0 15px;
@@ -177,6 +214,9 @@ $btn: $color-1;
 	}
 	.description {
 		color: $gray-text;
+	}
+	.btn__content {
+		color: #fff;
 	}
 }
 

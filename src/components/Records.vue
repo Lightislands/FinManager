@@ -3,6 +3,7 @@
 
         <h1>Records - {{ type }}</h1>
 <p>{{getTestName}}</p>
+<p v-if="email">email - {{email}}</p>
 
     <v-card-title>
       <v-spacer></v-spacer>
@@ -79,6 +80,7 @@
 
     import AddRecord from './AddRecord.vue';
     import { mapGetters } from 'vuex';
+    import axios from 'axios';
 
     export default {
 
@@ -86,6 +88,8 @@
 
         data () {
             return {
+                //email: '',
+
                 dialogEditModal: {isOpen: true},
                 dialogEdit: false,
 
@@ -112,14 +116,20 @@
         },
 
         created () {
-            this.initialize()
+            //this.initialize()
+                // console.log("Init - Records.vue")
+                // this.$store.commit('init');
+
+            // axios.get('/users.json')
+
+            this.$store.dispatch('fetchUser')
         },
 
         methods: {
-            initialize (){
-                alert("AAAA")
-                this.$store.commit('init');
-            },
+            // initialize (){
+            //     console.log("Init - Records.vue")
+            //     this.$store.commit('init');
+            // },
             editItem (item) {
                 this.dialogEdit = true;
                 this.editingItem = item;
@@ -136,6 +146,9 @@
             ]),
             isOpen() {
                 return this.dialogEditModal.isOpen;
+            },
+            email(){
+                return !this.$store.getters.user ? false : this.$store.getters.user.email
             }
         },
         watch: {
