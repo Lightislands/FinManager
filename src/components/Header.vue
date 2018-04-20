@@ -9,9 +9,11 @@
         </div>
 
         <div class="right-side">
+            <router-link v-if="isLogedIn" to="/user" active-class="active"><a>User</a></router-link>
 
+            <a v-if="isLogedIn"  @click="onLogOut">Log Out</a>
 
-            <a @click="dialogLogIn = true">Log In</a>
+            <a v-if="!isLogedIn" @click="dialogLogIn = true">Log In</a>
             <v-dialog v-model="dialogLogIn" max-width="500px" @keydown.esc="dialogLogIn = false">
                 <v-card>
                     <v-card-title><span class="headline">Log In</span></v-card-title>
@@ -21,7 +23,7 @@
 
 
 
-            <a  @click="dialogSignUp = true">Sign Up</a>
+            <a v-if="!isLogedIn"  @click="dialogSignUp = true">Sign Up</a>
             <v-dialog v-model="dialogSignUp" max-width="500px" @keydown.esc="dialogSignUp = false">
                 <v-card>
                     <v-card-title><span class="headline">Sign Up</span></v-card-title>
@@ -53,6 +55,8 @@
     import SignUp from './auth/signup.vue';
     import LogIn from './auth/signin.vue';
 
+    import storeAuth from '../store/auth'
+
     export default {
         data () {
             return {
@@ -67,9 +71,17 @@
             appSignUp: SignUp,
             appLogIn: LogIn
         },
+        methods: {
+            onLogOut(){
+                storeAuth.dispatch('logout');
+            }
+        },
         computed: {
             isOpen() {
                 return this.dialogNewModal.isOpen;
+            },
+            isLogedIn(){
+                return storeAuth.getters.isLogedIn
             }
         },
         watch: {

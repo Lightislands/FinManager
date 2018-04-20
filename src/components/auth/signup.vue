@@ -69,7 +69,8 @@
 </template>
 
 <script>
-
+  import storeAuth from '../../store/auth';
+  
   export default {
     data () {
       return {
@@ -104,7 +105,7 @@
           terms: this.terms
         }
         console.log(formData);
-        this.$store.dispatch('signup', formData)
+        storeAuth.dispatch('signup', formData)
       }
     }
   }

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import App from './App.vue'
 import { routes } from './router';
 import {store} from './store/store';
+import {storeAuth} from './store/auth';
 import Vuetify from 'vuetify';
 
 import appCss from './styles/app.scss';
@@ -40,6 +41,7 @@ new Vue({
   el: '#app',
   router,
   store,
+  storeAuth,
   render: h => h(App)
 });
 

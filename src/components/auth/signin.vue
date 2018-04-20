@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import storeAuth from '../../store/auth';
   export default {
     data () {
       return {
@@ -40,7 +41,7 @@
         }
 
 
-        this.$store.dispatch('login', {email: formData.email, password: formData.password})
+        storeAuth.dispatch('login', {email: formData.email, password: formData.password})
      
         console.log(formData)
       }

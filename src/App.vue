@@ -12,13 +12,17 @@
 
 <script>
     import Header from './components/Header.vue';
+    import storeAuth from './store/auth';
+
     export default {
         components: {
             appHeader: Header
+        },
+
+        created() {
+            // this.$store.dispatch('initRecords');
+            storeAuth.dispatch('tryAutoLogin');
         }
-//        created() {
-//            this.$store.dispatch('initRecords');
-//        }
     }
 </script>
 
