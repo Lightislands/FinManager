@@ -1,0 +1,1 @@
+added - Auth0 with password/email login/signup 

@@ -1,5 +1,7 @@
 <template>
     <div class="container">
+        <app-auth></app-auth>
+
         <app-header></app-header>
 
         <div class="row">
@@ -14,9 +16,12 @@
     import Header from './components/Header.vue';
     import storeAuth from './store/auth';
 
+    import Auth from './components/auth/auth.vue';
+
     export default {
         components: {
-            appHeader: Header
+            appHeader: Header,
+            appAuth: Auth
         },
 
         created() {

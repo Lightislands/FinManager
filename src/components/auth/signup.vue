@@ -2,12 +2,15 @@
   <div id="signup">
     <div class="signup-form">
       <form @submit.prevent="onSubmit">
-        <div class="input">
+        <div class="input" :class="{invalid: $v.email.$error}">
           <label for="email">Mail</label>
           <input
                   type="email"
                   id="email"
+                  @blur="$v.email.$touch()"
                   v-model="email">
+                  <p v-if="!$v.email.email">Please provide a valid email address.</p>
+                  <p v-if="!$v.email.required">This field must not be empty.</p>
         </div>
         <div class="input">
           <label for="age">Your Age</label>
@@ -16,12 +19,14 @@
                   id="age"
                   v-model.number="age">
         </div>
-        <div class="input">
+        <div class="input" :class="{invalid: !$v.password.minLen}">
           <label for="password">Password</label>
           <input
                   type="password"
                   id="password"
+                  @blur="$v.password.touch()"
                   v-model="password">
+                  <p v-if="!$v.password.minLen">Must be min 6 characters.</p>
         </div>
         <div class="input">
           <label for="confirm-password">Confirm Password</label>
@@ -61,7 +66,7 @@
           <label for="terms">Accept Terms of Use</label>
         </div>
         <div class="submit">
-          <button type="submit">Submit</button>
+          <button type="submit" :disabled="$v.$invalid">Submit</button>
         </div>
       </form>
     </div>
@@ -70,7 +75,7 @@
 
 <script>
   import storeAuth from '../../store/auth';
-  
+  import {required, email, minLength} from 'vuelidate/lib/validators';
   export default {
     data () {
       return {
@@ -81,6 +86,16 @@
         country: 'usa',
         hobbyInputs: [],
         terms: false
+      }
+    },
+    validations: {
+      email: {
+        required, // Same as - "required: required" (ES6)
+        email
+      },
+      password: {
+        required,
+        minLen: minLength(6)
       }
     },
     methods: {
@@ -112,6 +127,14 @@
 </script>
 
 <style scoped>
+  .input.invalid label {
+    color: red;
+  }
+  .input.invalid input {
+    border: 1px solid #f00;
+    background-color: #521751;
+  }
+
   .signup-form {
     width: 100%;
     /* margin: 30px auto; */

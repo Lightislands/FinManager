@@ -10,6 +10,8 @@ import appCss from './styles/app.scss';
 
 import axios from 'axios';
 
+import Vuelidate from 'vuelidate';
+
 axios.defaults.baseURL = 'https://fin-manager-5eca2.firebaseio.com';
 // // axios.defaults.headers.common['Authorization'] = 'something';
 // axios.defaults.headers.get['Accepts'] = 'application/json' // ???????
@@ -30,6 +32,7 @@ axios.defaults.baseURL = 'https://fin-manager-5eca2.firebaseio.com';
 Vue.use(VueRouter);
 Vue.use(Vuetify);
 Vue.use(appCss);
+Vue.use(Vuelidate);
 
 const router = new VueRouter({
   mode: 'history',
