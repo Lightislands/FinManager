@@ -1,0 +1,1 @@
+Auth params - https://auth0.com/docs/libraries/lock/v11/configuration
